@@ -18,21 +18,25 @@ export default class AnimationPage extends React.Component {
   }
 
   render() {
+    let useNativeDriver = this.props.navigation.state.params.useNativeDriver
     let components = []
     for(let i = 0; i < 50; i++) {
-      components.push(<AnimatedWidget useNativeDriver={this.props.useNativeDriver} key={`animatedWidget${i}`}/>)
+      components.push(<AnimatedWidget useNativeDriver={useNativeDriver} key={`animatedWidget${i}`}/>)
     }
 
     return (
-      <View style={styles.container}>
-        {components}
+      <View>
+        <Text>Using Native Driver: {useNativeDriver ? 'True' : 'False'}</Text>
+        <View style={styles.widgetContainer}>
+          {components}
+        </View>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  widgetContainer: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',

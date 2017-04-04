@@ -9,6 +9,11 @@ import {
 import AnimatedButton from './AnimatedButton'
 
 export default class MenuPage extends React.Component {
+  constructor(props) {
+    super(props)
+    console.log(props)
+  }
+
   static navigationOptions = {
     title: 'Menu',
   }
@@ -16,8 +21,16 @@ export default class MenuPage extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <AnimatedButton>Nav Thing 1</AnimatedButton>
-        <AnimatedButton>Nav Thing 2</AnimatedButton>
+        <AnimatedButton
+          onPress={() => this.props.navigation.navigate('AnimationPage', {useNativeDriver: false})}
+        >
+          Traditional Animation
+        </AnimatedButton>
+        <AnimatedButton
+          onPress={() => this.props.navigation.navigate('AnimationPage', {useNativeDriver: true})}
+        >
+          Native Driven Animation
+        </AnimatedButton>
       </View>
     )
   }
