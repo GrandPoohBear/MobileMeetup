@@ -14,20 +14,26 @@ export default class AnimatedWidget extends React.Component {
     this.state = {
       animationProgress: new Animated.Value(0)
     }
+
+    this.animation = {}
   }
 
   componentDidMount() {
-    this.startAnimation()
+    this.loopAnimation()
   }
 
-  startAnimation() {
-    Animated.sequence([
+  componentWillUnmount() {
+    this.animation.stop()
+  }
+
+  loopAnimation() {
+    this.animation = Animated.sequence([
       Animated.timing(
         this.state.animationProgress,
         {
           toValue: 1,
           duration: 1000,
-          useNativeDriver: true
+          useNativeDriver: this.props.useNativeDriver
         }
       ),
       Animated.timing(
@@ -35,17 +41,24 @@ export default class AnimatedWidget extends React.Component {
         {
           toValue: 0,
           duration: 1000,
-          useNativeDriver: true
+          useNativeDriver: this.props.useNativeDriver
         }
       )
     ])
-    .start(() => this.startAnimation())
+
+    this.animation.start(() => this.loopAnimation())
   }
 
   render() {
+    const spin = this.state.animationProgress.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '360deg']
+    })
     return (
       <View style={styles.container} >
-        <Text>Animation!</Text>
+        <Animated.View style={{transform: [{rotate: spin}] }}>
+          <Text >Animation!</Text>
+        </Animated.View>
         <Animated.View style={[styles.inner, {opacity: this.state.animationProgress}]} />
       </View>
     )
