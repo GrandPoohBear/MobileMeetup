@@ -5,12 +5,17 @@ import {
   Text, 
   View 
 } from 'react-native'
+import Spinner from 'rn-spinner'
 
 import AnimatedWidget from './AnimatedWidget'
 
 export default class AnimationPage extends React.Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      numComponents: 50
+    }
   }
 
   static navigationOptions = {
@@ -20,13 +25,18 @@ export default class AnimationPage extends React.Component {
   render() {
     let useNativeDriver = this.props.navigation.state.params.useNativeDriver
     let components = []
-    for(let i = 0; i < 50; i++) {
+    for(let i = 0; i < this.state.numComponents; i++) {
       components.push(<AnimatedWidget useNativeDriver={useNativeDriver} key={`animatedWidget${i}`}/>)
     }
 
     return (
       <View>
         <Text>Using Native Driver: {useNativeDriver ? 'True' : 'False'}</Text>
+        <Spinner max={200}
+          min={1}
+          default={this.state.numComponents}
+          onNumChange={(num) => this.setState({numComponents: num})}
+          />
         <View style={styles.widgetContainer}>
           {components}
         </View>

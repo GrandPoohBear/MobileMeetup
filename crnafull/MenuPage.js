@@ -31,6 +31,11 @@ export default class MenuPage extends React.Component {
         >
           Native Driven Animation
         </AnimatedButton>
+        <AnimatedButton
+          onPress={() => this.props.navigation.navigate('TabPage')}
+        >
+          Navigator Demo
+        </AnimatedButton>
       </View>
     )
   }
